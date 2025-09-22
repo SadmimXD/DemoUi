@@ -415,12 +415,12 @@
       // Show the modal with the generated ID
       showModal(applicationId);
       
-      // Make a serialisable snapshot of the form (for demo only)
+      // In a real application, you would send the form data to a server here
+      // For this demo, we'll just log it to the console
       const form = document.getElementById('btbForm');
       const data = new FormData(form);
       const obj = {};
       for(const [k,v] of data.entries()){
-        // support repeated name arrays
         if(k.endsWith('[]')){
           const key = k.replace('[]',''); if(!obj[key]) obj[key]=[]; obj[key].push(v);
         } else {
@@ -431,13 +431,10 @@
       // Add the generated ID to the form data
       obj.applicationId = applicationId;
       
-      const json = JSON.stringify(obj, null, 2);
-      // show in a popup — in a real app you'd send to an API
-      const win = window.open('','_blank');
-      win.document.write('<pre>'+escapeHtml(json)+'</pre>');
+      // Log to console (optional - for debugging)
+      console.log('Form data saved with ID:', applicationId);
+      console.log('Form data:', obj);
     }
-    
-    function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   </script>
 </body>
 </html>
