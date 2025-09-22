@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BTB L/C Application - Mockup</title>
+  <style>
+    :root{
+      --blue:#0b7fc1;
+      --header-blue:#0f78b4;
+      --beige:#efe9d6;
+      --panel:#f6f6f6;
+      --muted:#666;
+      --input-bg:#fff;
+      --font-sans: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:var(--font-sans);
+      margin:0;
+      background:linear-gradient(180deg,#eef6fb 0%, #ffffff 100%);
+      color:#222;
+      padding:18px;
+    }
+    .app{
+      max-width:1200px;
+      margin:0 auto;
+      border:1px solid #cfcfcf;
+      border-radius:6px;
+      overflow:hidden;
+      background:var(--beige);
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    }
+    header{
+      background:var(--header-blue);
+      color:#fff;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    header h1{
+      margin:0;font-size:18px;letter-spacing:1px;font-weight:700;
+    }
+    .top-controls{margin-left:auto;display:flex;gap:10px;align-items:center}
+    .top-controls select,.top-controls input{padding:6px 8px;border-radius:4px;border:none}
+
+    .container{padding:14px 16px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12,1fr);
+      gap:10px;
+      align-items:start;
+    }
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field{background:transparent}
+    input[type=text], input[type=number], input[type=date], select, textarea{
+      width:100%;padding:8px 10px;border:1px solid #cfcfcf;border-radius:4px;background:var(--input-bg);
+      font-size:13px;color:#222
+    }
+    textarea{min-height:64px;resize:vertical}
+    .panel{background:var(--panel);padding:10px;border-radius:6px;border:1px solid rgba(0,0,0,0.03)}
+
+    /* layout helpers */
+    .col-12{grid-column:span 12}
+    .col-8{grid-column:span 8}
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-3{grid-column:span 3}
+    .col-2{grid-column:span 2}
+    .col-1{grid-column:span 1}
+
+    /* grouped section title */
+    .section-title{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .section-title h2{font-size:13px;margin:0;color:#0c4f6d}
+    .actions{display:flex;gap:8px}
+    button{padding:8px 10px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;background:#fff}
+    .btn-primary{background:var(--blue);color:#fff;border:none}
+    .muted{font-size:12px;color:var(--muted)}
+
+    /* table */
+    .data-table{width:100%;border-collapse:collapse;margin-top:6px}
+    .data-table th, .data-table td{border:1px solid #ddd;padding:8px;font-size:13px;background:#fff}
+    .data-table th{background:#f1f8fc;color:#083b50}
+    .table-controls{display:flex;gap:8px;align-items:center}
+
+    /* footer */
+    .footer{display:flex;justify-content:space-between;padding:10px 16px;border-top:1px solid rgba(0,0,0,0.06);background:rgba(255,255,255,0.4)}
+
+    /* responsive tweaks */
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(6,1fr)} .col-8{grid-column:span 6} .col-4{grid-column:span 6}}
+    @media (max-width:560px){.grid{grid-template-columns:repeat(2,1fr)} .col-6,.col-4,.col-3{grid-column:span 2}}
+
+    /* small helpers */
+    .right{text-align:right}
+    .flex{display:flex;gap:8px;align-items:center}
+    .small{font-size:12px}
+
+    /* collapsible */
+    .collapsible{cursor:pointer;padding:6px 8px;border-radius:6px;border:1px dashed rgba(0,0,0,0.02);background:transparent}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="app" role="application">
+    <header>
+      <h1>BTB L/C APPLICATION</h1>
+      <div class="top-controls">
+        <select aria-label="company">
+          <option>ASKML</option>
+          <option>Company 2</option>
+        </select>
+        <label class="small" style="color:#fff">Status</label>
+        <select aria-label="status">
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="container">
+      <form id="btbForm">
+        <div class="grid">
+          <!-- Company / Beneficiary block -->
+          <div class="col-12 panel">
+            <div class="section-title">
+              <h2>Company / Beneficiary</h2>
+              <div class="muted">PI / Indent · Apex Address · Buyer</div>
+            </div>
+            <div class="grid" style="gap:8px">
+              <div class="col-2">
+                <label>PI No</label>
+                <input type="text" name="pi_no" placeholder="PI No">
+              </div>
+              <div class="col-2">
+                <label>PI Date</label>
+                <input type="date" name="pi_date">
+              </div>
+              <div class="col-4">
+                <label>Apex Address</label>
+                <input type="text" name="apex_address" placeholder="SHANTA SKYMART (LEVELS 8-13), 18 GULSHAN">
+              </div>
+              <div class="col-4">
+                <label>Buyer</label>
+                <input type="text" name="buyer">
+              </div>
+
+              <div class="col-6">
+                <label>Beneficiary (Full name)</label>
+                <input type="text" name="beneficiary">
+              </div>
+              <div class="col-6">
+                <label>Beneficiary Address</label>
+                <input type="text" name="beneficiary_address">
+              </div>
+
+              <div class="col-6">
+                <label>Manufacturer / Supplier</label>
+                <input type="text" name="manufacturer">
+              </div>
+              <div class="col-6">
+                <label>Insurance</label>
+                <select name="insurance"><option>None</option><option>Insured</option></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Insurance & Item Info -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Insurance & Item Info</h2></div>
+            <div class="grid">
+              <div class="col-2"><label>Period (days)</label><input type="number" name="period"></div>
+              <div class="col-3"><label>Item</label><select name="item"><option>YARN</option><option>FABRIC</option></select></div>
+              <div class="col-2"><label>Quantity</label><div class="flex"><input type="number" name="quantity"><select style="width:80px"><option>KGS</option><option>PCS</option></select></div></div>
+              <div class="col-3"><label>L/C Amount</label><div class="flex"><input type="number" name="lc_amount"><select style="width:90px"><option>US$</option><option>EUR</option></select></div></div>
+              <div class="col-1"><label>Margin %</label><input type="number" name="margin" value="0"></div>
+              <div class="col-1"><label>Tolerance %</label><input type="number" name="tolerance" value="0"></div>
+
+              <div class="col-3"><label>Quarter</label><select name="quarter"><option>1st</option><option>2nd</option><option>3rd</option><option>4th</option></select></div>
+              <div class="col-3"><label>App. Date</label><input type="date" name="app_date" value=""></div>
+              <div class="col-3"><label>Expiry Place</label><input type="text" name="expiry_place"></div>
+              <div class="col-3"><label>Pay Within (days)</label><input type="number" name="pay_within" value="60"></div>
+            </div>
+          </div>
+
+          <!-- Loading / Bank Info -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Loading & Bank Info</h2></div>
+            <div class="grid">
+              <div class="col-3"><label>Loading From</label><input type="text" name="loading_from"></div>
+              <div class="col-3"><label>Loading To</label><input type="text" name="loading_to"></div>
+              <div class="col-3"><label>Local Bank</label><select name="local_bank"><option>EBL</option><option>BRAC</option></select></div>
+              <div class="col-3"><label>Shipping Mark</label><input type="text" name="shipping_mark"></div>
+
+              <div class="col-3"><label>Country of Origin</label><input type="text" name="origin"></div>
+              <div class="col-3"><label>Equivalent US$</label><input type="number" name="eq_usd"></div>
+              <div class="col-6"><label>EDF</label><select name="edf"><option>None</option><option>EDF</option></select></div>
+            </div>
+          </div>
+
+          <!-- Reference Numbers -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Reference Numbers</h2></div>
+            <div class="grid">
+              <div class="col-3"><label>L/C No</label><input type="text" name="lc_no"></div>
+              <div class="col-3"><label>L/C Date</label><input type="date" name="lc_date"></div>
+              <div class="col-3"><label>BB Ref No</label><input type="text" name="bb_ref"></div>
+              <div class="col-3"><label>BB Ref Date</label><input type="date" name="bb_date"></div>
+
+              <div class="col-3"><label>DCU No</label><input type="text" name="dcu_no"></div>
+              <div class="col-3"><label>DCU Date</label><input type="date" name="dcu_date"></div>
+              <div class="col-3"><label>LCA No</label><input type="text" name="lca_no"></div>
+              <div class="col-3"><label>Reg No</label><input type="text" name="reg_no"></div>
+
+              <div class="col-4"><label>L/C Type</label><select name="lc_type"><option>L/C</option><option>Back to Back</option></select></div>
+              <div class="col-4"><label>Item Name</label><input type="text" name="item_name"></div>
+              <div class="col-4"><label>HS Code</label><input type="text" name="hs_code"></div>
+            </div>
+          </div>
+
+          <!-- Item Description -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Item Description</h2></div>
+            <div>
+              <label>Description</label>
+              <textarea name="item_desc"></textarea>
+            </div>
+          </div>
+
+          <!-- Financials -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Financials</h2></div>
+            <div class="grid">
+              <div class="col-2"><label>Third Party</label><input type="text" name="third_party"></div>
+              <div class="col-2"><label>Swift Charge</label><input type="number" name="swift_charge"></div>
+              <div class="col-2"><label>Margin</label><input type="number" name="margin_charge"></div>
+              <div class="col-2"><label>Stamp Charge</label><input type="number" name="stamp_charge" value="500"></div>
+              <div class="col-2"><label>Comm (Curr)</label><input type="number" name="comm_curr"></div>
+              <div class="col-2"><label>Conv. Rate</label><input type="number" name="conv_rate"></div>
+
+              <div class="col-3"><label>FC SC</label><input type="text" name="fc_sc"></div>
+              <div class="col-3"><label>Vat On DC Comm.</label><input type="number" name="vat_dc"></div>
+              <div class="col-6"><label>Total</label><input type="number" name="total" readonly></div>
+            </div>
+          </div>
+
+          <!-- Musok Category Table -->
+          <div class="col-12 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Musok Category wise L/C</h2></div>
+            <div class="table-controls">
+              <button type="button" id="addMusok">+ Add Row</button>
+              <button type="button" id="clearMusok">Clear</button>
+            </div>
+            <table class="data-table" id="musokTable" aria-label="Musok table">
+              <thead>
+                <tr><th>Musok Item</th><th>Quantity</th><th>Unit</th><th>Value</th><th>Unit Price</th><th></th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" name="musok_item[]" placeholder="Yarn"></td>
+                  <td><input type="number" name="musok_qty[]"></td>
+                  <td><input type="text" name="musok_unit[]" value="KGS"></td>
+                  <td><input type="number" name="musok_value[]"></td>
+                  <td><input type="number" name="musok_uprice[]"></td>
+                  <td class="right"><button type="button" class="removeRow">Remove</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Audit & Comments -->
+          <div class="col-6 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Audit Correction Comments</h2></div>
+            <label>Category</label>
+            <select name="audit_cat"><option>None</option><option>Minor</option><option>Major</option></select>
+            <label style="margin-top:8px">Comments</label>
+            <textarea name="audit_comments"></textarea>
+          </div>
+
+          <!-- Yarn Description -->
+          <div class="col-6 panel" style="margin-top:10px">
+            <div class="section-title"><h2>Yarn / Fabric Description</h2></div>
+            <div class="grid">
+              <div class="col-6"><label>Yarn Dyeing Qty</label><input type="number" name="yarn_dye_qty"></div>
+              <div class="col-6"><label>Swing Thread (KG)</label><input type="number" name="swing_thread"></div>
+              <div class="col-6"><label>Cone</label><input type="number" name="cone"></div>
+              <div class="col-6"><label>Dyes Qty</label><input type="number" name="dyes_qty"></div>
+              <div class="col-6"><label>Chemical Qty</label><input type="number" name="chem_qty"></div>
+              <div class="col-6"><label>Fabric KG</label><input type="number" name="fabric_kg"></div>
+              <div class="col-12"><label>Fabric Description</label><input type="text" name="fabric_desc"></div>
+            </div>
+          </div>
+
+          <!-- hidden helper for additional UI components -->
+
+        </div>
+
+        <div class="footer">
+          <div class="flex">
+            <button type="button" onclick="resetForm()">Reset</button>
+            <button type="button" class="btn-primary" onclick="saveForm()">Save</button>
+            <button type="button" onclick="printForm()">Print</button>
+          </div>
+          <div class="muted small">Mockup for GitHub Pages — vanilla HTML/CSS/JS</div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // small client-side behaviours: add/remove table rows, compute totals
+    document.getElementById('addMusok').addEventListener('click', function(){
+      const tbody = document.querySelector('#musokTable tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" name="musok_item[]" placeholder="Item"></td>
+        <td><input type="number" name="musok_qty[]"></td>
+        <td><input type="text" name="musok_unit[]" value="KGS"></td>
+        <td><input type="number" name="musok_value[]"></td>
+        <td><input type="number" name="musok_uprice[]"></td>
+        <td class="right"><button type="button" class="removeRow">Remove</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('clearMusok').addEventListener('click', function(){
+      const tbody = document.querySelector('#musokTable tbody');
+      tbody.innerHTML = '';
+    });
+
+    document.querySelector('#musokTable').addEventListener('click', function(e){
+      if(e.target.classList.contains('removeRow')){
+        const tr = e.target.closest('tr'); if(tr) tr.remove();
+      }
+    });
+
+    function resetForm(){ if(confirm('Reset form?')) document.getElementById('btbForm').reset(); }
+    function printForm(){ window.print(); }
+
+    function saveForm(){
+      // Make a serialisable snapshot of the form (for demo only)
+      const form = document.getElementById('btbForm');
+      const data = new FormData(form);
+      const obj = {};
+      for(const [k,v] of data.entries()){
+        // support repeated name arrays
+        if(k.endsWith('[]')){
+          const key = k.replace('[]',''); if(!obj[key]) obj[key]=[]; obj[key].push(v);
+        } else {
+          if(obj[k] && Array.isArray(obj[k])) obj[k].push(v); else obj[k]=v;
+        }
+      }
+      const json = JSON.stringify(obj, null, 2);
+      // show in a popup — in a real app you'd send to an API
+      const win = window.open('','_blank');
+      win.document.write('<pre>'+escapeHtml(json)+'</pre>');
+    }
+    function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  </script>
+</body>
+</html>
