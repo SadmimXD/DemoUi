@@ -99,6 +99,45 @@
     /* collapsible */
     .collapsible{cursor:pointer;padding:6px 8px;border-radius:6px;border:1px dashed rgba(0,0,0,0.02);background:transparent}
     .hidden{display:none}
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .modal-id {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--blue);
+      margin: 20px 0;
+      letter-spacing: 3px;
+    }
+    .modal-close {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -125,7 +164,7 @@
           <div class="col-12 panel">
             <div class="section-title">
               <h2>Company / Beneficiary</h2>
-              <div class="muted">PI / Indent · Apex Address · Buyer</div>
+              <div class="muted">PI / Indent · Company Address · Buyer</div>
             </div>
             <div class="grid" style="gap:8px">
               <div class="col-2">
@@ -137,8 +176,8 @@
                 <input type="date" name="pi_date">
               </div>
               <div class="col-4">
-                <label>Apex Address</label>
-                <input type="text" name="apex_address" placeholder="SHANTA SKYMART (LEVELS 8-13), 18 GULSHAN">
+                <label>Company Address</label>
+                <input type="text" name="company_address" placeholder="Enter company address">
               </div>
               <div class="col-4">
                 <label>Buyer</label>
@@ -290,9 +329,6 @@
               <div class="col-12"><label>Fabric Description</label><input type="text" name="fabric_desc"></div>
             </div>
           </div>
-
-          <!-- hidden helper for additional UI components -->
-
         </div>
 
         <div class="footer">
@@ -304,6 +340,17 @@
           <div class="muted small">Mockup for GitHub Pages — vanilla HTML/CSS/JS</div>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Save Confirmation Modal -->
+  <div id="saveModal" class="modal">
+    <div class="modal-content">
+      <h3>Application Saved Successfully!</h3>
+      <p>Your BTB L/C application has been saved with the following ID:</p>
+      <div class="modal-id" id="applicationId">000000</div>
+      <p>Please note this ID for future reference.</p>
+      <button class="modal-close" onclick="closeModal()">OK</button>
     </div>
   </div>
 
@@ -336,8 +383,38 @@
 
     function resetForm(){ if(confirm('Reset form?')) document.getElementById('btbForm').reset(); }
     function printForm(){ window.print(); }
+    
+    // Generate a random 6-digit ID
+    function generateId() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    
+    // Show modal with generated ID
+    function showModal(id) {
+      document.getElementById('applicationId').textContent = id;
+      document.getElementById('saveModal').style.display = 'flex';
+    }
+    
+    // Close modal
+    function closeModal() {
+      document.getElementById('saveModal').style.display = 'none';
+    }
+    
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('saveModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
 
     function saveForm(){
+      // Generate a unique 6-digit ID
+      const applicationId = generateId();
+      
+      // Show the modal with the generated ID
+      showModal(applicationId);
+      
       // Make a serialisable snapshot of the form (for demo only)
       const form = document.getElementById('btbForm');
       const data = new FormData(form);
@@ -350,11 +427,16 @@
           if(obj[k] && Array.isArray(obj[k])) obj[k].push(v); else obj[k]=v;
         }
       }
+      
+      // Add the generated ID to the form data
+      obj.applicationId = applicationId;
+      
       const json = JSON.stringify(obj, null, 2);
       // show in a popup — in a real app you'd send to an API
       const win = window.open('','_blank');
       win.document.write('<pre>'+escapeHtml(json)+'</pre>');
     }
+    
     function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   </script>
 </body>
